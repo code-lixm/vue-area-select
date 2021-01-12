@@ -8,26 +8,24 @@ jobs:
     # steps字段指定每个 Job 的运行步骤，可以包含一个或多个步骤
     steps:
       # 获取源码，使用的 action 是actions/checkout
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        persist-credentials: false
-        
-    # react项目为npm run-script build，vue项目改为npm run build
-    - name: Install and Build
-      #构建脚本
-      run: |
-        npm install
-        npm run build
-     
-    # 构建和部署，使用的 action 是JamesIves/github-pages-deploy-action
-    # react项目的FOLDER为build，vue项目改为dist
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v3
-      with:
-        # GitHub 密钥
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        # 发布分支
-        BRANCH: gh-pages
-        # 构建成果所在目录
-        FOLDER: dist
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          persist-credentials: false
+
+      # react项目为npm run-script build，vue项目改为npm run build
+      - name: Install and Build
+        #构建脚本
+      # 构建和部署，使用的 action 是JamesIves/github-pages-deploy-action
+      # react项目的FOLDER为build，vue项目改为dist
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@master
+        env:
+          # GitHub 密钥
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BASE_BRANCH: develop
+          # 发布分支
+          BRANCH: gh-pages
+          # 构建成果所在目录
+          FOLDER: dist
+          BUILD_SCRIPT: npm install && npm run build
