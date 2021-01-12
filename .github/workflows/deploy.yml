@@ -1,15 +1,9 @@
-# name字段是 workflow 的名称
-name: GitHub Actions Build and Deploy Demo
-# on字段指定触发 workflow 的条件，通常是某些事件
-# 这里的触发条件是push代码到master的时候触发
 on:
   push:
     branches:
       - develop
-# workflow 文件的主体是jobs字段，表示要执行的一项或多项任务
 jobs:
   main:
-    # runs-on字段指定运行所需要的虚拟机环境。它是必填字段。目前可用的虚拟机如下：ubuntu-latest，windows-latest，macOS-latest
     runs-on: ubuntu-latest
     # steps字段指定每个 Job 的运行步骤，可以包含一个或多个步骤
     steps:
@@ -29,7 +23,7 @@ jobs:
     # 构建和部署，使用的 action 是JamesIves/github-pages-deploy-action
     # react项目的FOLDER为build，vue项目改为dist
     - name: Deploy
-      uses: lixiaoming-bit/vue-area-select@develop
+      uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
         # GitHub 密钥
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
