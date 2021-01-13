@@ -23,7 +23,7 @@ export default {
     selectItemClassName: {
       validator: value => Array.isArray(value) || typeof value === 'string'
     },
-    acestorClassName: {
+    ancestorClassName: {
       type: String,
       default: 'html'
     },
@@ -287,7 +287,7 @@ export default {
       return selectDoms[0]
     },
     getAcestorDom() {
-      const acestorDom = document.querySelector(this.acestorClassName)
+      const acestorDom = document.querySelector(this.ancestorClassName)
       const flag = acestorDom === document.documentElement || acestorDom === document
       const type = flag ? 1 : 0
       const targetDom = flag ? document.documentElement : acestorDom

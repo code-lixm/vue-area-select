@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="app">
+    <!-- <div class="control"></div> -->
     <div class="area-select-container">
       <div class="list-one" v-for="(node, index) in list" :key="index" :data-selected-index="index">
         {{ node }}
@@ -29,11 +30,10 @@ export default {
   margin: 0;
   padding: 0;
 }
-// #app {
-//   width: 800px;
-//   height: 800px;
-//   overflow: auto;
-// }
+.control {
+  height: 200px;
+  width: 100%;
+}
 .list-one {
   width: 50px;
   height: 50px;
@@ -45,12 +45,7 @@ export default {
 .area-select-container {
   display: inline-block;
   position: relative;
-  width: 2500px;
   height: 2500px;
   background-color: #ffffff;
-}
-.selected-i {
-  // background-color: #f5f6f7;
-  // color: red;
 }
 </style>
