@@ -1,18 +1,26 @@
 <template>
   <div id="app">
-    <div class="left"></div>
-    <div class="main">
-      <div class="control"></div>
-      <div class="area-select-container">
-        <div class="list-one" v-for="(node, index) in list" :key="index" :data-selected-index="index">
-          {{ node }}
-        </div>
+    <div class="control">
+      <div class="model-list">
+        {{ selectList }}
       </div>
-      <VueAreaSelect
-        :selectItemClassName="['list-one']"
-        v-model="selectList"
-        selectAreaClassName="area-select-container"
-      />
+      <button @click="handleOpr(1)" class="custom-btn">设置preventParent: {{ preventParent }}</button>
+    </div>
+    <div class="app">
+      <div class="left"></div>
+      <div class="main">
+        <div class="area-select-container">
+          <div class="list-one" v-for="(node, index) in list" :key="index" :data-selected-index="index">
+            {{ node }}
+          </div>
+        </div>
+        <VueAreaSelect
+          :selectItemClassName="['list-one']"
+          v-model="selectList"
+          :preventParent="preventParent"
+          selectedClassName="select-i"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -22,13 +30,23 @@ export default {
   data() {
     const target = Array.from(new Array(1000), (item, i) => i)
     return {
+      preventParent: false,
+      selectAreaClassName: 'main',
       selectList: [],
       list: target
     }
   },
   created() {},
   watch: {},
-  methods: {},
+  methods: {
+    handleOpr(type) {
+      switch (type) {
+        case 1:
+          this.preventParent = !this.preventParent
+          break
+      }
+    }
+  },
   components: {}
 }
 </script>
@@ -37,7 +55,7 @@ export default {
   margin: 0;
   padding: 0;
 }
-#app {
+.app {
   display: flex;
   .left {
     width: 200px;
@@ -49,8 +67,12 @@ export default {
 }
 
 .control {
-  height: 200px;
-  width: 100%;
+  background-color: wheat;
+}
+.model-list {
+  background: #fff;
+  height: 100px;
+  overflow: auto;
 }
 .list-one {
   width: 50px;
@@ -58,6 +80,7 @@ export default {
   display: inline-block;
   text-align: center;
   line-height: 50px;
+
   vertical-align: middle;
 }
 .area-select-container {
@@ -65,5 +88,8 @@ export default {
   position: relative;
   height: 2500px;
   background-color: #ffffff;
+}
+.select-i {
+  color: red;
 }
 </style>

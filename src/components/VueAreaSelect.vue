@@ -303,9 +303,8 @@ export default {
       return [targetDom, type]
     },
     getAreaClassName() {
-      this.selectAreaDom = document.querySelector(`.${this.selectAreaClassName}`)
-      !this.selectAreaDom && (this.selectAreaDom = this.$el.parentNode)
-      console.log('this.selectAreaDom: ', this.selectAreaDom)
+      this.selectAreaDom =
+        this.selectAreaClassName === '' ? this.$el.parentNode : document.querySelector(`.${this.selectAreaClassName}`)
     }
   },
   watch: {
