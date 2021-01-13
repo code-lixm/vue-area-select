@@ -43,7 +43,12 @@ components: {VueAreaSelect}
 
 ### v-model
 
-接受一个列表
+接受一个 `Array`
+
+### selectAreaClassName
+
+指定选择的区域范围（仅支持一个）
+默认值: ''(指向组件存在的父元素)
 
 ### selectItemClassName
 

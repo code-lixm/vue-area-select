@@ -20,6 +20,10 @@ export default {
   filters: {},
   components: {},
   props: {
+    selectAreaClassName: {
+      type: String,
+      default: ''
+    },
     selectItemClassName: {
       validator: value => Array.isArray(value) || typeof value === 'string'
     },
@@ -54,6 +58,7 @@ export default {
   },
   data() {
     return {
+      selectAreaDom: null,
       rootEl: null,
       rootElType: '',
       selectDoms: null,
@@ -74,20 +79,24 @@ export default {
   mounted() {
     this.selectDoms = this.getClassNameList()
 
-    const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = this.$el.parentNode
-    this.parentRect = [offsetLeft, offsetTop, offsetWidth, offsetHeight]
-    ;[this.rootEl, this.rootElType] = this.getAcestorDom()
+    this.getAreaClassName()
 
-    addEvent(this.$el.parentNode, 'mousedown', this.handleMouseDown)
+    const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = this.selectAreaDom
+    this.parentRect = [offsetLeft, offsetTop, offsetWidth, offsetHeight]
+    ;[this.rootEl, this.rootElType] = this.getAncestorDom()
+
+    addEvent(this.selectAreaDom, 'mousedown', this.handleMouseDown)
     addEvent(document.documentElement, 'resize', this.handleResize)
   },
   methods: {
     handleResize() {
       this.$nextTick(() => {
         this.selectDoms = this.getClassNameList()
-        const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = this.$el.parentNode
+        let selectAreaDom = this.getAreaClassName()
+        !selectAreaDom && (selectAreaDom = this.$el.parentNode)
+        const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = selectAreaDom
         this.parentRect = [offsetLeft, offsetTop, offsetWidth, offsetHeight]
-        ;[this.rootEl, this.rootElType] = this.getAcestorDom()
+        ;[this.rootEl, this.rootElType] = this.getAncestorDom()
       })
     },
     initGlobal() {
@@ -105,7 +114,7 @@ export default {
 
       if (e instanceof MouseEvent && e.which !== 1) return
       const target = e.target || e.srcElement
-      if (!this.$el.parentNode.contains(target)) return false
+      if (!this.selectAreaDom.contains(target)) return false
 
       this.visible = true
       this.mouseClick = true
@@ -119,7 +128,7 @@ export default {
       ;[this.startX, this.startY] = [pageX, pageY]
       ;[this.endX, this.endY] = [pageX, pageY]
 
-      addEvent(this.$el.parentNode, 'mousewheel', this.handleMouseWheelScroll)
+      addEvent(this.selectAreaDom, 'mousewheel', this.handleMouseWheelScroll)
       addEvent(document.documentElement, 'mousemove', this.handleMouseMove)
       addEvent(document.documentElement, 'mouseup', this.handleMouseUp)
 
@@ -133,11 +142,11 @@ export default {
       if (this.mouseClick) {
         const { clientX, clientY } = e
         const { scrollTop, scrollLeft } = this.rootEl
+
         const pageX = clientX + scrollLeft + (!this.rootElType ? document.documentElement.scrollLeft : 0)
         const pageY = clientY + scrollTop + (!this.rootElType ? document.documentElement.scrollTop : 0)
         this.checkParent(pageX, pageY)
         this.autoScroll(pageX, pageY, clientX, clientY, 50)
-
         this.handleAreaSelect()
       }
     },
@@ -173,8 +182,6 @@ export default {
       this.$emit('call', this.selectingList)
     },
     reRenderSelectList(list) {
-      if (!list.length) return
-
       const selectedClassName = this.selectedClassName
 
       for (let i = 0; i < this.selectDoms.length; i++) {
@@ -189,6 +196,7 @@ export default {
           node.classList.remove(selectedClassName)
         }
       }
+      // requestAnimationFrame(this.reRenderSelectList(list))
     },
     handleMouseWheelScroll(e) {
       clearInterval(this.scrollTimer)
@@ -254,7 +262,7 @@ export default {
         if (directX === 'right') {
           pageX = scrollWidth
 
-          const flag = clientWidth + scrollLeft > scrollWidth
+          const flag = clientWidth + scrollLeft >= scrollWidth
           if (flag) clearInterval(this.scrollTimer)
           this.rootEl.scrollLeft = flag ? scrollWidth - clientWidth : this.rootEl.scrollLeft + 50
         }
@@ -286,13 +294,18 @@ export default {
       }
       return selectDoms[0]
     },
-    getAcestorDom() {
+    getAncestorDom() {
       const acestorDom = document.querySelector(this.ancestorClassName)
       const flag = acestorDom === document.documentElement || acestorDom === document
       const type = flag ? 1 : 0
       const targetDom = flag ? document.documentElement : acestorDom
 
       return [targetDom, type]
+    },
+    getAreaClassName() {
+      this.selectAreaDom = document.querySelector(`.${this.selectAreaClassName}`)
+      !this.selectAreaDom && (this.selectAreaDom = this.$el.parentNode)
+      console.log('this.selectAreaDom: ', this.selectAreaDom)
     }
   },
   watch: {
@@ -327,13 +340,13 @@ export default {
 </script>
 <style scoped lang="less">
 .area-select-mask {
-  background-color: rgba(196, 222, 247, 0.05);
-  border: 1px dashed rgb(4, 0, 255);
+  background-color: rgba(196, 222, 247, 0.2);
+  border: 1px dashed rgb(255, 0, 0);
   z-index: 10000;
 }
 </style>
 <style>
 .selected-item {
-  background-color: rgba(16, 239, 255, 0.05);
+  background-color: rgba(16, 239, 255, 0.1);
 }
 </style>

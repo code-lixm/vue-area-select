@@ -1,11 +1,18 @@
 <template>
-  <div id="app" class="app">
-    <!-- <div class="control"></div> -->
-    <div class="area-select-container">
-      <div class="list-one" v-for="(node, index) in list" :key="index" :data-selected-index="index">
-        {{ node }}
+  <div id="app">
+    <div class="left"></div>
+    <div class="main">
+      <div class="control"></div>
+      <div class="area-select-container">
+        <div class="list-one" v-for="(node, index) in list" :key="index" :data-selected-index="index">
+          {{ node }}
+        </div>
       </div>
-      <VueAreaSelect :selectItemClassName="['list-one']" v-model="selectList" />
+      <VueAreaSelect
+        :selectItemClassName="['list-one']"
+        v-model="selectList"
+        selectAreaClassName="area-select-container"
+      />
     </div>
   </div>
 </template>
@@ -30,6 +37,17 @@ export default {
   margin: 0;
   padding: 0;
 }
+#app {
+  display: flex;
+  .left {
+    width: 200px;
+    background-color: yellow;
+  }
+  .main {
+    flex: 1;
+  }
+}
+
 .control {
   height: 200px;
   width: 100%;
