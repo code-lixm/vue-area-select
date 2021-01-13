@@ -15,11 +15,14 @@ jobs:
 
       # react项目为npm run-script build，vue项目改为npm run build
       - name: Install and Build
+      run: |
+          npm install
+          npm run build
         #构建脚本
       # 构建和部署，使用的 action 是JamesIves/github-pages-deploy-action
       # react项目的FOLDER为build，vue项目改为dist
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@master
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         env:
           # GitHub 密钥
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
