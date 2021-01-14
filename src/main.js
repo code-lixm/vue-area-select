@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueAreaSelect from './lib'
+import VueAreaSelect from 'v-area-select'
+// import VueAreaSelect from './lib'
+
 Vue.use(VueAreaSelect)
 Vue.config.productionTip = false
 

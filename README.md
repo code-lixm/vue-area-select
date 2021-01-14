@@ -8,20 +8,18 @@
 
 安装
 
-> npm install vue-area-select or yarn add vue-area-select
+> npm install v-area-select or yarn add v-area-select
 
 注册使用
 
 1. 全局安装，在`main.js`中
 ```js
-import VueAreaSelect from 'vue-area-select'
-import 'vue-area-select.css'
+import VueAreaSelect from 'v-area-select'
 Vue.use(VueAreaSelect)
 ```
 2. 在组件中使用
 ```js
-import VueAreaSelect from 'vue-area-select'
-import 'vue-area-select.css'
+import VueAreaSelect from 'v-area-select'
 components: {VueAreaSelect}
 ```
 
