@@ -19,7 +19,7 @@ Vue.use(VueAreaSelect)
 ```
 2. 在组件中使用
 ```js
-import VueAreaSelect from 'v-area-select'
+import { VueAreaSelect } from 'v-area-select'
 components: {VueAreaSelect}
 ```
 

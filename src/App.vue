@@ -48,7 +48,9 @@ export default {
       }
     }
   },
-  components: {}
+  components: {
+    VueAreaSelect
+  }
 }
 </script>
 <style lang="less">
