@@ -25,6 +25,7 @@
   </div>
 </template>
 <script>
+import { VueAreaSelect } from 'v-area-select'
 export default {
   name: 'App',
   data() {
